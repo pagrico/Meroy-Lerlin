@@ -9,12 +9,10 @@ package proyecto_programacion;
  * @author Pablo
  */
 public class Gama {
-    
+
     protected String Gama_Prod;
     protected String Desc_Txt_Gama;
-        protected String Desc_Web_Gama;
+    protected String Desc_Web_Gama;
+    protected String Img_Gama;
 
-            protected String Img_Gama;
-
-    
 }
