@@ -10,4 +10,11 @@ package proyecto_programacion;
  */
 public class Gama {
     
+    protected String Gama_Prod;
+    protected String Desc_Txt_Gama;
+        protected String Desc_Web_Gama;
+
+            protected String Img_Gama;
+
+    
 }
