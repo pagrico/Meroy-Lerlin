@@ -15,4 +15,11 @@ public class Gama {
     protected String Desc_Web_Gama;
     protected String Img_Gama;
 
+    public Gama(String Gama_Prod) {
+        this.Gama_Prod = Gama_Prod;
+    }
+    
+    
+    
+
 }
