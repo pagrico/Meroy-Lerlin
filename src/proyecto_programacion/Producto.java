@@ -9,6 +9,7 @@ package proyecto_programacion;
  * @author Pablo
  */
 public class Producto {
+    
     protected String ID_Prod;
     protected String Nom_Prod;
     protected Gama Gama_Prod;
@@ -30,5 +31,6 @@ public class Producto {
     
             
     
+
     
 }
