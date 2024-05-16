@@ -2,18 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package proyecto_programacion;
+package Vista;
+
+import java.awt.HeadlessException;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Pablo
  */
-public class Eleccion extends javax.swing.JFrame {
+public class JFrame_Main extends javax.swing.JFrame {
 
     /**
      * Creates new form Eleccion
      */
-    public Eleccion() {
+    public JFrame_Main() {
         initComponents();
     }
 
@@ -38,10 +43,20 @@ public class Eleccion extends javax.swing.JFrame {
         Seleccion_Gama.setBackground(new java.awt.Color(255, 255, 255));
         Seleccion_Gama.setFont(new java.awt.Font("Arial", 2, 14)); // NOI18N
         Seleccion_Gama.setText("Gama");
+        Seleccion_Gama.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Seleccion_GamaActionPerformed(evt);
+            }
+        });
 
         Seleccion_Producto.setBackground(new java.awt.Color(255, 255, 255));
         Seleccion_Producto.setFont(new java.awt.Font("Arial", 2, 14)); // NOI18N
         Seleccion_Producto.setText("Producto");
+        Seleccion_Producto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Seleccion_ProductoActionPerformed(evt);
+            }
+        });
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/folder/descarga.png"))); // NOI18N
 
@@ -86,6 +101,24 @@ public class Eleccion extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public JFrame_Main(JFrame_Buscar_Producto buscar_Producto, JButton Seleccion_Gama, JButton Seleccion_Producto, JLabel jLabel2, JPanel jPanel1) throws HeadlessException {
+        this.buscar_Producto = buscar_Producto;
+        this.Seleccion_Gama = Seleccion_Gama;
+        this.Seleccion_Producto = Seleccion_Producto;
+        this.jLabel2 = jLabel2;
+        this.jPanel1 = jPanel1;
+    }
+public JFrame_Buscar_Producto buscar_Producto;
+    private void Seleccion_ProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Seleccion_ProductoActionPerformed
+        JFrame_Buscar_Producto buscar_Producto=new JFrame_Buscar_Producto();
+        buscar_Producto.setVisible(true);
+    }//GEN-LAST:event_Seleccion_ProductoActionPerformed
+
+    private void Seleccion_GamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Seleccion_GamaActionPerformed
+       JFrame_Buscar_Gama buscar_Gama=new JFrame_Buscar_Gama();
+        buscar_Gama.setVisible(true);
+    }//GEN-LAST:event_Seleccion_GamaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -103,20 +136,21 @@ public class Eleccion extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Eleccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFrame_Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Eleccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFrame_Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Eleccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFrame_Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Eleccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFrame_Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Eleccion().setVisible(true);
+                new JFrame_Main().setVisible(true);
             }
         });
     }
