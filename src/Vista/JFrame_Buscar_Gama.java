@@ -4,12 +4,10 @@
  */
 package Vista;
 
-import java.awt.Button;
-import java.util.List;
 import java.util.ArrayList;
 
 import javax.swing.JToggleButton;
-import javax.swing.JToolBar;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import modelos.GamaProducto;
 import modelos.GamaProductoDAO;
@@ -19,10 +17,11 @@ import modelos.GamaProductoDAO;
  * @author Pablo
  */
 public class JFrame_Buscar_Gama extends javax.swing.JFrame {
-    private int Seleccion=0;
+    int Seleccion;
     GamaProductoDAO dao;
     ArrayList<GamaProducto> Lista_Gama;
     DefaultTableModel modelo;
+    
     /**
      * Creates new form JFrame_Buscar_Producto
      */
@@ -35,14 +34,14 @@ public class JFrame_Buscar_Gama extends javax.swing.JFrame {
         modelo = new DefaultTableModel();
         modelo.addColumn("Gama");
         modelo.addColumn("Descripción");
-        Tabla();
+        Tabla_inicio();
         Tabla_Gama.setModel(modelo);
         
         
         
     }
     
-    public void Tabla(){
+    public void Tabla_inicio(){
          String[] datos= new String[2];
         for(GamaProducto gama:Lista_Gama) {
             datos[0]=gama.getGama();
@@ -68,13 +67,13 @@ public class JFrame_Buscar_Gama extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         Tabla_Gama = new javax.swing.JTable();
+        jPanel5 = new javax.swing.JPanel();
+        Texto_Filtrado_Gama = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
         Anadir_Gama = new javax.swing.JButton();
+        Eliminar_gama = new javax.swing.JButton();
         Modificar_gama = new javax.swing.JButton();
         Mostrar_gama = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jTextField4 = new javax.swing.JTextField();
-        Eliminar_gama = new javax.swing.JButton();
 
         jMenu1.setText("jMenu1");
 
@@ -104,12 +103,25 @@ public class JFrame_Buscar_Gama extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(Tabla_Gama);
 
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "GAMA", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ebrima", 1, 24))); // NOI18N
+
+        Texto_Filtrado_Gama.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Texto_Filtrado_GamaKeyTyped(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Calibri", 3, 18)); // NOI18N
+        jLabel1.setText("Gama:");
+
         Anadir_Gama.setText("Añadir");
         Anadir_Gama.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Anadir_GamaActionPerformed(evt);
             }
         });
+
+        Eliminar_gama.setText("Eliminar");
 
         Modificar_gama.setText("Modificar");
         Modificar_gama.addActionListener(new java.awt.event.ActionListener() {
@@ -125,85 +137,82 @@ public class JFrame_Buscar_Gama extends javax.swing.JFrame {
             }
         });
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "BUSCAR", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ebrima", 1, 24))); // NOI18N
-
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escoge uno...", "ID", "Nombre", "Gama", "Proveedor" }));
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(jComboBox3, 0, 172, Short.MAX_VALUE)
-                .addGap(34, 34, 34))
+                .addGap(111, 111, 111)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Texto_Filtrado_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(183, Short.MAX_VALUE))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(Eliminar_gama, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Anadir_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(Modificar_gama, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addComponent(Mostrar_gama, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(69, 69, 69))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(120, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(65, 65, 65)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox3))
-                .addGap(128, 128, 128))
+                    .addComponent(Texto_Filtrado_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Anadir_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Modificar_gama, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(65, 65, 65)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Mostrar_gama, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Eliminar_gama, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(67, 67, 67))
         );
-
-        Eliminar_gama.setText("Eliminar");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(20, 20, 20)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(Anadir_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Eliminar_gama, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Modificar_gama, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Mostrar_gama, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 623, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(17, 17, 17))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Anadir_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Eliminar_gama, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Modificar_gama, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Mostrar_gama, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(84, 84, 84))
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(0, 18, Short.MAX_VALUE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 498, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(21, 21, 21))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 1189, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -215,36 +224,68 @@ public class JFrame_Buscar_Gama extends javax.swing.JFrame {
 
     private void Anadir_GamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Anadir_GamaActionPerformed
         Abrir(1);
+        LimpiarTabla();
+        Tabla_inicio();
+        Texto_Filtrado_Gama.setText("");
+        
        
     }//GEN-LAST:event_Anadir_GamaActionPerformed
 
     private void Modificar_gamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Modificar_gamaActionPerformed
-        Abrir(2);  // TODO add your handling code here:
+        Abrir(2); 
+        
     }//GEN-LAST:event_Modificar_gamaActionPerformed
-    public void Abrir(int seleccion) {
-        seleccion=seleccion;
+
+            
+
+    private void Texto_Filtrado_GamaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Texto_Filtrado_GamaKeyTyped
+        LimpiarTabla();
+        filtrar();
+    }//GEN-LAST:event_Texto_Filtrado_GamaKeyTyped
+    public void Abrir(int seleccionado) {
+        
         JFrame_Gestion_Gama Gestion_Gama = new JFrame_Gestion_Gama();
         Gestion_Gama.setVisible(true);
          JToggleButton boton = Gestion_Gama.getBtn_Gestion_Gama();
-        switch (seleccion) {
+         
+        switch (seleccionado) {
             case 1:
+                Gestion_Gama.Seleccion_btn=1;
                 boton.setText("Añadir");
+                
                 break;
             case 2:
+                Gestion_Gama.Seleccion_btn=2;
                 boton.setText("Actualizar");
-
+                
                 break;
             case 3:
+                  Gestion_Gama.Seleccion_btn=3;
                 boton.setText("Generar Actuación");
-
                 break;
         }
         
     }
     
-    public int getSeleccion(){
-        return Seleccion;
+  
+    
+    public void LimpiarTabla(){
+        modelo.setRowCount(0);
     }
+    
+    public void filtrar(){
+        String Texto=Texto_Filtrado_Gama.getText();
+          String[] datos= new String[2];
+        for(GamaProducto gama:Lista_Gama) {
+            if(gama.getGama().startsWith(Texto)){
+            datos[0]=gama.getGama();
+            datos[1]=gama.getDescripcion_texto();
+            modelo.addRow(datos);
+            }
+        }
+        
+    }
+    
     
     
     
@@ -261,12 +302,12 @@ public class JFrame_Buscar_Gama extends javax.swing.JFrame {
     private javax.swing.JButton Modificar_gama;
     private javax.swing.JButton Mostrar_gama;
     private javax.swing.JTable Tabla_Gama;
-    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JTextField Texto_Filtrado_Gama;
     private javax.swing.JFrame jFrame1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 }

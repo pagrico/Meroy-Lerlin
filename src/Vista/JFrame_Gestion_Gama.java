@@ -6,22 +6,25 @@ package Vista;
 
 import javax.swing.JButton;
 import javax.swing.JToggleButton;
+import modelos.GamaProductoDAO;
+import modelos.GamaProducto;
+
 
 /**
  *
  * @author Pablo Grimao Company
  */
 public class JFrame_Gestion_Gama extends javax.swing.JFrame {
-    int Seleccion;
+     int Seleccion_btn;
      JFrame_Buscar_Gama Buscar_Gama;
+     GamaProductoDAO DAO;
     /**
      * Creates new form Modificar_Mostrar_Anadir
      */
     public JFrame_Gestion_Gama() {
         initComponents();
-        setDefaultCloseOperation(JFrame_Buscar_Producto.DISPOSE_ON_CLOSE);
         Buscar_Gama = new JFrame_Buscar_Gama();
-        Seleccion=Buscar_Gama.getSeleccion();
+        DAO=new GamaProductoDAO();
     }
 
     /**
@@ -36,13 +39,13 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btn_Cerrar_Gama = new javax.swing.JToggleButton();
         Btn_Gestion_Gama = new javax.swing.JToggleButton();
-        jTextField2 = new javax.swing.JTextField();
+        JT_Gama = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        JT_Descripcion = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        JTHTML = new javax.swing.JTextArea();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
+        JTIMG = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -51,7 +54,7 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel1.setFont(new java.awt.Font("Sitka Small", 2, 18)); // NOI18N
-        jLabel1.setText("ID:");
+        jLabel1.setText("Gama:");
 
         btn_Cerrar_Gama.setText("Cerrar");
         btn_Cerrar_Gama.addActionListener(new java.awt.event.ActionListener() {
@@ -66,19 +69,19 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame {
             }
         });
 
-        jTextField2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        JT_Gama.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        JT_Descripcion.setColumns(20);
+        JT_Descripcion.setRows(5);
+        jScrollPane1.setViewportView(JT_Descripcion);
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        JTHTML.setColumns(20);
+        JTHTML.setRows(5);
+        jScrollPane2.setViewportView(JTHTML);
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jScrollPane3.setViewportView(jTextArea3);
+        JTIMG.setColumns(20);
+        JTIMG.setRows(5);
+        jScrollPane3.setViewportView(JTIMG);
 
         jLabel2.setFont(new java.awt.Font("Sitka Small", 2, 18)); // NOI18N
         jLabel2.setText("HTML:");
@@ -95,19 +98,20 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel3)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)))
+                    .addComponent(jLabel1))
                 .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(JT_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(154, 154, 154)
@@ -121,7 +125,7 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(70, 70, 70)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JT_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -154,16 +158,20 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_Cerrar_GamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Cerrar_GamaActionPerformed
-    this.dispose();
+    Cerrar();
     }//GEN-LAST:event_btn_Cerrar_GamaActionPerformed
 
     private void Btn_Gestion_GamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Gestion_GamaActionPerformed
-       switch (Seleccion) {
+
+        
+        switch (Seleccion_btn) {
             case 1:
                 Anadir();
+                
                 break;
             case 2:             
                 Modificar();
+               
                 break;
             case 3:
                 Mostrar();
@@ -172,6 +180,15 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_Btn_Gestion_GamaActionPerformed
     private void Anadir(){
+        String gama=JT_Gama.getText().trim();
+        String Desc=JT_Descripcion.getText().trim();
+        String HTML=JTHTML.getText().trim();
+        String IMG=JTIMG.getText().trim();
+        Object[] o={gama,Desc,HTML,IMG};
+        DAO.agregar(o);
+        GamaProducto aux=new GamaProducto(gama, Desc, HTML, IMG);
+        Buscar_Gama.Lista_Gama.add(aux);
+        Cerrar();
         
     }
     
@@ -180,9 +197,13 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame {
     }
     private void Mostrar(){
         
-    }    public JToggleButton getBtn_Gestion_Gama() {
+    }   
+    public JToggleButton getBtn_Gestion_Gama() {
         return Btn_Gestion_Gama;
         }
+    private void Cerrar(){
+        this.dispose();
+    }
     /**
      * @param args the command line arguments
      */
@@ -190,6 +211,10 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton Btn_Gestion_Gama;
+    private javax.swing.JTextArea JTHTML;
+    private javax.swing.JTextArea JTIMG;
+    private javax.swing.JTextArea JT_Descripcion;
+    private javax.swing.JTextField JT_Gama;
     private javax.swing.JToggleButton btn_Cerrar_Gama;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -198,9 +223,5 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
-    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }
