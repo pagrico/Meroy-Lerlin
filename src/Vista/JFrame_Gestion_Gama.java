@@ -22,6 +22,7 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame {
     String sql;
     JTable Tabla_Gama;
     ArrayList<GamaProducto> listado;
+    String Row;
 
     /**
      * Creates new form Modificar_Mostrar_Anadir
@@ -31,6 +32,8 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame {
         Buscar_Gama = new JFrame_Buscar_Gama();
         DAO = new GamaProductoDAO();
         listado = Buscar_Gama.Lista_Gama;
+        System.out.println(Row);
+        
 
     }
 
@@ -176,6 +179,7 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame {
 
                 break;
             case 2:
+                
                 Modificar();
 
                 break;
@@ -199,8 +203,8 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame {
     }
 
     public void Seleccionado() {
-        if (Buscar_Gama.Tabla_Gama.getSelectedRow() != 0) {
-            String aux = (String) Buscar_Gama.Tabla_Gama.getValueAt(Buscar_Gama.Tabla_Gama.getSelectedRow(), 1);
+       
+            String aux = Row;
             for (GamaProducto GP : listado) {
                 if (GP.getGama().equals(aux)) {
                     JT_Gama.setText(GP.getGama());
@@ -209,14 +213,14 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame {
                     JTIMG.setText(GP.getImagen());
 
                 }
-            }
+            
         }
     }
     public void cambio() {
       
     }
     private void Modificar() {
-        Seleccionado();
+        
         
 
     }

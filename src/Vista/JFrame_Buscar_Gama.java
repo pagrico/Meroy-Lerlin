@@ -257,8 +257,8 @@ public class JFrame_Buscar_Gama extends javax.swing.JFrame {
                 break;
             case 2:
                 Gestion_Gama.Seleccion_btn=2;
-                
-                
+                Gestion_Gama.Seleccionado();   
+                Gestion_Gama.Row=(String)Tabla_Gama.getValueAt(Tabla_Gama.getSelectedRow(), 1);
                 boton.setText("Actualizar");
                 
                 break;
