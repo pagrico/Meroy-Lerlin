@@ -5,9 +5,9 @@
 package Vista;
 
 import java.util.ArrayList;
+import javax.swing.JTable;
 
 import javax.swing.JToggleButton;
-import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import modelos.GamaProducto;
 import modelos.GamaProductoDAO;
@@ -21,6 +21,7 @@ public class JFrame_Buscar_Gama extends javax.swing.JFrame {
     GamaProductoDAO dao;
     ArrayList<GamaProducto> Lista_Gama;
     DefaultTableModel modelo;
+    
     
     /**
      * Creates new form JFrame_Buscar_Producto
@@ -256,18 +257,20 @@ public class JFrame_Buscar_Gama extends javax.swing.JFrame {
                 break;
             case 2:
                 Gestion_Gama.Seleccion_btn=2;
+                
+                
                 boton.setText("Actualizar");
                 
                 break;
             case 3:
-                  Gestion_Gama.Seleccion_btn=3;
+                Gestion_Gama.Seleccion_btn=3;
                 boton.setText("Generar Actuación");
                 break;
         }
         
     }
     
-  
+    
     
     public void LimpiarTabla(){
         modelo.setRowCount(0);
@@ -301,7 +304,7 @@ public class JFrame_Buscar_Gama extends javax.swing.JFrame {
     private javax.swing.ButtonGroup Grupo_busc_Prod;
     private javax.swing.JButton Modificar_gama;
     private javax.swing.JButton Mostrar_gama;
-    private javax.swing.JTable Tabla_Gama;
+    public javax.swing.JTable Tabla_Gama;
     private javax.swing.JTextField Texto_Filtrado_Gama;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;

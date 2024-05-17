@@ -4,27 +4,34 @@
  */
 package Vista;
 
-import javax.swing.JButton;
+import java.util.ArrayList;
+import javax.swing.JTable;
 import javax.swing.JToggleButton;
 import modelos.GamaProductoDAO;
 import modelos.GamaProducto;
-
 
 /**
  *
  * @author Pablo Grimao Company
  */
 public class JFrame_Gestion_Gama extends javax.swing.JFrame {
-     int Seleccion_btn;
-     JFrame_Buscar_Gama Buscar_Gama;
-     GamaProductoDAO DAO;
+
+    int Seleccion_btn;
+    JFrame_Buscar_Gama Buscar_Gama;
+    GamaProductoDAO DAO;
+    String sql;
+    JTable Tabla_Gama;
+    ArrayList<GamaProducto> listado;
+
     /**
      * Creates new form Modificar_Mostrar_Anadir
      */
     public JFrame_Gestion_Gama() {
         initComponents();
         Buscar_Gama = new JFrame_Buscar_Gama();
-        DAO=new GamaProductoDAO();
+        DAO = new GamaProductoDAO();
+        listado = Buscar_Gama.Lista_Gama;
+
     }
 
     /**
@@ -158,20 +165,19 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_Cerrar_GamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Cerrar_GamaActionPerformed
-    Cerrar();
+        Cerrar();
     }//GEN-LAST:event_btn_Cerrar_GamaActionPerformed
 
     private void Btn_Gestion_GamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Gestion_GamaActionPerformed
 
-        
         switch (Seleccion_btn) {
             case 1:
                 Anadir();
-                
+
                 break;
-            case 2:             
+            case 2:
                 Modificar();
-               
+
                 break;
             case 3:
                 Mostrar();
@@ -179,35 +185,57 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame {
                 break;
         }
     }//GEN-LAST:event_Btn_Gestion_GamaActionPerformed
-    private void Anadir(){
-        String gama=JT_Gama.getText().trim();
-        String Desc=JT_Descripcion.getText().trim();
-        String HTML=JTHTML.getText().trim();
-        String IMG=JTIMG.getText().trim();
-        Object[] o={gama,Desc,HTML,IMG};
+    private void Anadir() {
+        String gama = JT_Gama.getText().trim();
+        String Desc = JT_Descripcion.getText().trim();
+        String HTML = JTHTML.getText().trim();
+        String IMG = JTIMG.getText().trim();
+        Object[] o = {gama, Desc, HTML, IMG};
         DAO.agregar(o);
-        GamaProducto aux=new GamaProducto(gama, Desc, HTML, IMG);
+        GamaProducto aux = new GamaProducto(gama, Desc, HTML, IMG);
         Buscar_Gama.Lista_Gama.add(aux);
         Cerrar();
-        
+
     }
-    
-    private void Modificar(){
-        
+
+    public void Seleccionado() {
+        if (Buscar_Gama.Tabla_Gama.getSelectedRow() != 0) {
+            String aux = (String) Buscar_Gama.Tabla_Gama.getValueAt(Buscar_Gama.Tabla_Gama.getSelectedRow(), 1);
+            for (GamaProducto GP : listado) {
+                if (GP.getGama().equals(aux)) {
+                    JT_Gama.setText(GP.getGama());
+                    JT_Descripcion.setText(GP.getDescripcion_texto());
+                    JTHTML.setText(GP.getDescripcion_html());
+                    JTIMG.setText(GP.getImagen());
+
+                }
+            }
+        }
     }
-    private void Mostrar(){
+    public void cambio() {
+      
+    }
+    private void Modificar() {
+        Seleccionado();
         
-    }   
+
+    }
+
+    private void Mostrar() {
+
+    }
+
     public JToggleButton getBtn_Gestion_Gama() {
         return Btn_Gestion_Gama;
-        }
-    private void Cerrar(){
+    }
+
+    private void Cerrar() {
         this.dispose();
     }
     /**
      * @param args the command line arguments
      */
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton Btn_Gestion_Gama;
