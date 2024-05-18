@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class GamaProductoDAO {
-
+    
     Connection con = Conexion.Conexion.getConnection();
 
     PreparedStatement ps;
@@ -85,24 +85,41 @@ public class GamaProductoDAO {
         }
     }
 
-    public void eliminar(String codigoProducto) {
-        int r = 0;
-        String sql = "DELETE FROM gama_producto WHERE gama=?";
+    public void eliminar(String Gama) {
+    String sql = "DELETE FROM gama_producto WHERE gama=?";
 
+    try {
+        ps = con.prepareStatement(sql);
+        ps.setString(1, Gama);
+
+        int resultado = ps.executeUpdate(); // Solo necesitas ejecutar la consulta una vez
+
+        if (resultado > 0) {
+            JOptionPane.showMessageDialog(null, "El producto " + Gama + " se eliminó correctamente");
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontró ningún producto con el nombre " + Gama, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error al eliminar el producto: " + e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        // Aquí puedes cerrar los recursos, como el PreparedStatement
         try {
-
-            ps = con.prepareStatement(sql);
-            ps.setString(1, codigoProducto);
-            ps.executeUpdate();
-
-            int resultado = ps.executeUpdate();
-            if (resultado > 0) {
-                JOptionPane.showMessageDialog(null, "El producto " + codigoProducto + " se eliminó correctamente");
-            } else {
-                JOptionPane.showMessageDialog(null, "Error al eliminar el producto " + codigoProducto, "Error", JOptionPane.ERROR_MESSAGE);
+            if (ps != null) {
+                ps.close();
             }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.toString());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al cerrar el PreparedStatement: " + ex.toString(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+}
+
+    
+GamaProducto Gama=new GamaProducto(null, null, null, null);
+    public void set_Gama(GamaProducto aux){
+        Gama=aux;
+    }
+    public GamaProducto get_Gama(){
+        return  Gama;
+    }
+     
 }

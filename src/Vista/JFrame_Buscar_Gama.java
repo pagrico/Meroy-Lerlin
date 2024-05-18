@@ -4,8 +4,8 @@
  */
 package Vista;
 
-import java.util.ArrayList;
-import javax.swing.JTable;
+import java.util.Iterator;
+import javax.swing.JOptionPane;
 
 import javax.swing.JToggleButton;
 import javax.swing.table.DefaultTableModel;
@@ -16,40 +16,35 @@ import modelos.GamaProductoDAO;
  *
  * @author Pablo
  */
-public class JFrame_Buscar_Gama extends javax.swing.JFrame {
+public class JFrame_Buscar_Gama extends javax.swing.JFrame implements Interfaz {
+
     int Seleccion;
     GamaProductoDAO dao;
-    ArrayList<GamaProducto> Lista_Gama;
+
     DefaultTableModel modelo;
-    
-    
+
     /**
      * Creates new form JFrame_Buscar_Producto
      */
     public JFrame_Buscar_Gama() {
         initComponents();
         setDefaultCloseOperation(JFrame_Buscar_Gama.DISPOSE_ON_CLOSE);
-        Lista_Gama= new ArrayList<GamaProducto>();
-        dao=new GamaProductoDAO();
-        Lista_Gama=(ArrayList)dao.listar();
         modelo = new DefaultTableModel();
         modelo.addColumn("Gama");
         modelo.addColumn("Descripción");
         Tabla_inicio();
         Tabla_Gama.setModel(modelo);
-        
-        
-        
+
     }
-    
-    public void Tabla_inicio(){
-         String[] datos= new String[2];
-        for(GamaProducto gama:Lista_Gama) {
-            datos[0]=gama.getGama();
-            datos[1]=gama.getDescripcion_texto();
-            
+
+    public void Tabla_inicio() {
+        String[] datos = new String[2];
+        for (GamaProducto gama : Array_Gama_Productos) {
+            datos[0] = gama.getGama();
+            datos[1] = gama.getDescripcion_texto();
+
             modelo.addRow(datos);
-           
+
         }
     }
 
@@ -123,6 +118,11 @@ public class JFrame_Buscar_Gama extends javax.swing.JFrame {
         });
 
         Eliminar_gama.setText("Eliminar");
+        Eliminar_gama.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Eliminar_gamaActionPerformed(evt);
+            }
+        });
 
         Modificar_gama.setText("Modificar");
         Modificar_gama.addActionListener(new java.awt.event.ActionListener() {
@@ -228,75 +228,122 @@ public class JFrame_Buscar_Gama extends javax.swing.JFrame {
         LimpiarTabla();
         Tabla_inicio();
         Texto_Filtrado_Gama.setText("");
-        
-       
+
+
     }//GEN-LAST:event_Anadir_GamaActionPerformed
 
     private void Modificar_gamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Modificar_gamaActionPerformed
-        Abrir(2); 
-        
+        Abrir(2);
+
     }//GEN-LAST:event_Modificar_gamaActionPerformed
 
-            
 
     private void Texto_Filtrado_GamaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Texto_Filtrado_GamaKeyTyped
         LimpiarTabla();
         filtrar();
     }//GEN-LAST:event_Texto_Filtrado_GamaKeyTyped
+
+    private void Eliminar_gamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Eliminar_gamaActionPerformed
+
+        GamaProducto gama = Objeto();
+        Iterator<GamaProducto> iterador = Array_Gama_Productos.iterator();
+
+        // Iterar sobre la lista de productos
+        while (iterador.hasNext()) {
+            GamaProducto productoActual = iterador.next(); // Obtener el objeto actual del iterador
+            if (gama.equals(productoActual)) { // Comparar el objeto gama con el objeto actual
+                iterador.remove(); // Eliminar el objeto actual del iterador
+                Gama_DAO.eliminar(productoActual.getGama()); // Eliminar el objeto actual de la base de datos
+            }
+        }
+        LimpiarTabla();
+        Tabla_inicio();
+
+    }//GEN-LAST:event_Eliminar_gamaActionPerformed
+
     public void Abrir(int seleccionado) {
-        
-        JFrame_Gestion_Gama Gestion_Gama = new JFrame_Gestion_Gama();
+        GamaProducto gamaProducto = null;
+
+        // Obtener el objeto GamaProducto solo en los casos 2 y 3
+        if (seleccionado == 2 || seleccionado == 3) {
+            gamaProducto = Objeto();
+            if (gamaProducto == null) {
+                JOptionPane.showMessageDialog(this, "Debes seleccionar un dato válido");
+                return; // Salir del método si el objeto es nulo
+            }
+        }
+
+        // Crear el JFrame_Gestion_Gama con el parámetro adicional
+        JFrame_Gestion_Gama Gestion_Gama = new JFrame_Gestion_Gama(seleccionado, gamaProducto);
+
         Gestion_Gama.setVisible(true);
-         JToggleButton boton = Gestion_Gama.getBtn_Gestion_Gama();
-         
+        JToggleButton boton = Gestion_Gama.getBtn_Gestion_Gama();
+
         switch (seleccionado) {
             case 1:
-                Gestion_Gama.Seleccion_btn=1;
                 boton.setText("Añadir");
-                
                 break;
             case 2:
-                Gestion_Gama.Seleccion_btn=2;
-                Gestion_Gama.Seleccionado();   
-                Gestion_Gama.Row=(String)Tabla_Gama.getValueAt(Tabla_Gama.getSelectedRow(), 1);
+                Gama_DAO.set_Gama(gamaProducto);
                 boton.setText("Actualizar");
-                
                 break;
             case 3:
-                Gestion_Gama.Seleccion_btn=3;
+                Gama_DAO.set_Gama(gamaProducto);
                 boton.setText("Generar Actuación");
                 break;
         }
-        
     }
-    
-    
-    
-    public void LimpiarTabla(){
-        modelo.setRowCount(0);
+
+    public GamaProducto Objeto() {
+        try {
+            int filaSeleccionada = Tabla_Gama.getSelectedRow();
+            if (filaSeleccionada == -1) {
+                JOptionPane.showMessageDialog(this, "Debes seleccionar una fila.");
+                return null;
+            }
+
+            String gamaSeleccionada = ((String) Tabla_Gama.getValueAt(filaSeleccionada, 0)).trim();
+            return buscarGamaProductoPorGama(gamaSeleccionada);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar una fila válida.");
+            return null;
+        }
     }
-    
-    public void filtrar(){
-        String Texto=Texto_Filtrado_Gama.getText();
-          String[] datos= new String[2];
-        for(GamaProducto gama:Lista_Gama) {
-            if(gama.getGama().startsWith(Texto)){
-            datos[0]=gama.getGama();
-            datos[1]=gama.getDescripcion_texto();
-            modelo.addRow(datos);
+
+    private GamaProducto buscarGamaProductoPorGama(String gamaSeleccionada) {
+        for (GamaProducto gamaProducto : Array_Gama_Productos) {
+            if (gamaProducto.getGama().trim().equals(gamaSeleccionada)) {
+                return gamaProducto;
             }
         }
-        
+        JOptionPane.showMessageDialog(this, "No se encontró ningún objeto con la gama seleccionada.");
+        return null;
     }
-    
-    
-    
-    
-    
+
+    public void LimpiarTabla() {
+        modelo.setRowCount(0);
+    }
+
+    public void filtrar() {
+        String texto = Texto_Filtrado_Gama.getText().toLowerCase(); // Convertir a minúsculas
+        if (texto != null && !texto.isEmpty()) {
+            DefaultTableModel modelo = (DefaultTableModel) Tabla_Gama.getModel();
+            modelo.setRowCount(0); // Limpiar la tabla antes de agregar datos
+
+            for (GamaProducto gama : Array_Gama_Productos) {
+                if (gama.getGama().toLowerCase().startsWith(texto)) { // Convertir a minúsculas
+                    Object[] fila = {gama.getGama(), gama.getDescripcion_texto()};
+                    modelo.addRow(fila);
+                }
+            }
+        } else {
+            Tabla_inicio(); // Llamar a la función Tabla_inicio cuando no hay nada en el campo de búsqueda
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Anadir_Gama;

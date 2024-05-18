@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.JToggleButton;
@@ -14,26 +15,35 @@ import modelos.GamaProducto;
  *
  * @author Pablo Grimao Company
  */
-public class JFrame_Gestion_Gama extends javax.swing.JFrame {
+public class JFrame_Gestion_Gama extends javax.swing.JFrame implements Interfaz {
 
     int Seleccion_btn;
     JFrame_Buscar_Gama Buscar_Gama;
-    GamaProductoDAO DAO;
-    String sql;
-    JTable Tabla_Gama;
-    ArrayList<GamaProducto> listado;
-    String Row;
+    GamaProducto GamaProducto;
 
     /**
      * Creates new form Modificar_Mostrar_Anadir
      */
-    public JFrame_Gestion_Gama() {
+    public JFrame_Gestion_Gama(int Seleccion, GamaProducto Gama) {
         initComponents();
+        setDefaultCloseOperation(JFrame_Buscar_Gama.DISPOSE_ON_CLOSE);
         Buscar_Gama = new JFrame_Buscar_Gama();
-        DAO = new GamaProductoDAO();
-        listado = Buscar_Gama.Lista_Gama;
-        System.out.println(Row);
-        
+        GamaProducto = Gama;
+        Seleccion_btn = Seleccion;
+
+        switch (Seleccion) {
+            case 1:
+                Muestra_Anadir();
+
+                break;
+            case 2:
+                System.out.println("Vista.JFrame_Gestion_Gama.<init>()");
+                Muestra_Modificar();
+                break;
+            case 3:
+                Muestraa_Mostrar();
+                break;
+        }
 
     }
 
@@ -151,9 +161,7 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addGap(19, 19, 19)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(58, 58, 58)
                         .addComponent(jLabel3)))
@@ -179,53 +187,78 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame {
 
                 break;
             case 2:
-                
+
                 Modificar();
 
                 break;
-            case 3:
-                Mostrar();
 
-                break;
         }
     }//GEN-LAST:event_Btn_Gestion_GamaActionPerformed
-    private void Anadir() {
+    private void Modificar() {
+
         String gama = JT_Gama.getText().trim();
         String Desc = JT_Descripcion.getText().trim();
         String HTML = JTHTML.getText().trim();
         String IMG = JTIMG.getText().trim();
         Object[] o = {gama, Desc, HTML, IMG};
-        DAO.agregar(o);
-        GamaProducto aux = new GamaProducto(gama, Desc, HTML, IMG);
-        Buscar_Gama.Lista_Gama.add(aux);
+        Gama_DAO.actualizar(o);
+        GamaProducto.setDescripcion_texto(Desc);
+        GamaProducto.setDescripcion_html(HTML);
+        GamaProducto.setImagen(IMG);
         Cerrar();
 
     }
 
-    public void Seleccionado() {
-       
-            String aux = Row;
-            for (GamaProducto GP : listado) {
-                if (GP.getGama().equals(aux)) {
-                    JT_Gama.setText(GP.getGama());
-                    JT_Descripcion.setText(GP.getDescripcion_texto());
-                    JTHTML.setText(GP.getDescripcion_html());
-                    JTIMG.setText(GP.getImagen());
+    private void Anadir() {
 
-                }
-            
-        }
+        JT_Gama.setEditable(true);
+        String gama = JT_Gama.getText().trim();
+        String Desc = JT_Descripcion.getText().trim();
+        String HTML = JTHTML.getText().trim();
+        String IMG = JTIMG.getText().trim();
+        Object[] o = {gama, Desc, HTML, IMG};
+        Gama_DAO.agregar(o);
+        GamaProducto aux = new GamaProducto(gama, Desc, HTML, IMG);
+        Buscar_Gama.Array_Gama_Productos.add(aux);
+        Buscar_Gama.filtrar();
+        Cerrar();
+
     }
+
+    public void Muestra_Anadir() {
+        JT_Gama.setEditable(true);
+        JT_Descripcion.setEditable(true);
+        JTHTML.setEditable(true);
+        JTIMG.setEditable(true);
+
+    }
+
+    public void Muestra_Modificar() {
+
+        JT_Gama.setText(GamaProducto.getGama());
+        JT_Descripcion.setText(GamaProducto.getDescripcion_texto());
+        JTHTML.setText(GamaProducto.getDescripcion_html());
+        JTIMG.setText(GamaProducto.getImagen());
+        JT_Gama.setEditable(false);
+        JT_Descripcion.setEditable(true);
+        JTHTML.setEditable(true);
+        JTIMG.setEditable(true);
+
+    }
+
+    public void Muestraa_Mostrar() {
+        JT_Gama.setText(GamaProducto.getGama());
+        JT_Descripcion.setText(GamaProducto.getDescripcion_texto());
+        JTHTML.setText(GamaProducto.getDescripcion_html());
+        JTIMG.setText(GamaProducto.getImagen());
+        JT_Gama.setEditable(false);
+        JT_Descripcion.setEditable(false);
+        JTHTML.setEditable(false);
+        JTIMG.setEditable(false);
+
+    }
+
     public void cambio() {
-      
-    }
-    private void Modificar() {
-        
-        
-
-    }
-
-    private void Mostrar() {
 
     }
 
