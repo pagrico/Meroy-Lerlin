@@ -37,7 +37,7 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame implements Interfaz 
 
                 break;
             case 2:
-                System.out.println("Vista.JFrame_Gestion_Gama.<init>()");
+               
                 Muestra_Modificar();
                 break;
             case 3:
@@ -126,19 +126,17 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame implements Interfaz 
                             .addComponent(jLabel3)))
                     .addComponent(jLabel1))
                 .addGap(51, 51, 51)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JT_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(154, 154, 154)
-                .addComponent(btn_Cerrar_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(128, 128, 128)
-                .addComponent(Btn_Gestion_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(156, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_Cerrar_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(141, 141, 141)
+                        .addComponent(Btn_Gestion_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(JT_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2)
+                        .addComponent(jScrollPane3)))
+                .addGap(0, 115, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,11 +159,13 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame implements Interfaz 
                         .addComponent(jLabel2)
                         .addGap(19, 19, 19)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(58, 58, 58)
-                        .addComponent(jLabel3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                        .addComponent(jLabel3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_Cerrar_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Btn_Gestion_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -226,6 +226,7 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame implements Interfaz 
     }
 
     public void Muestra_Anadir() {
+        Btn_Gestion_Gama.setVisible(true);
         JT_Gama.setEditable(true);
         JT_Descripcion.setEditable(true);
         JTHTML.setEditable(true);
@@ -234,7 +235,7 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame implements Interfaz 
     }
 
     public void Muestra_Modificar() {
-
+        Btn_Gestion_Gama.setVisible(true);
         JT_Gama.setText(GamaProducto.getGama());
         JT_Descripcion.setText(GamaProducto.getDescripcion_texto());
         JTHTML.setText(GamaProducto.getDescripcion_html());
@@ -247,6 +248,7 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame implements Interfaz 
     }
 
     public void Muestraa_Mostrar() {
+        Btn_Gestion_Gama.setVisible(false);
         JT_Gama.setText(GamaProducto.getGama());
         JT_Descripcion.setText(GamaProducto.getDescripcion_texto());
         JTHTML.setText(GamaProducto.getDescripcion_html());

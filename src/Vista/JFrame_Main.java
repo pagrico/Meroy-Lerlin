@@ -31,94 +31,74 @@ public class JFrame_Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         Seleccion_Gama = new javax.swing.JButton();
         Seleccion_Producto = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        FONDO = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Seleccion_Gama.setBackground(new java.awt.Color(255, 255, 255));
-        Seleccion_Gama.setFont(new java.awt.Font("Arial", 2, 14)); // NOI18N
-        Seleccion_Gama.setText("Gama");
+        Seleccion_Gama.setBackground(new java.awt.Color(204, 204, 204));
+        Seleccion_Gama.setFont(new java.awt.Font("Corbel", 1, 18)); // NOI18N
+        Seleccion_Gama.setText("GAMA");
+        Seleccion_Gama.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.gray, java.awt.Color.white, null, null));
+        Seleccion_Gama.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Seleccion_Gama.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Seleccion_GamaActionPerformed(evt);
             }
         });
+        jPanel2.add(Seleccion_Gama, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 360, 200, 80));
 
-        Seleccion_Producto.setBackground(new java.awt.Color(255, 255, 255));
-        Seleccion_Producto.setFont(new java.awt.Font("Arial", 2, 14)); // NOI18N
-        Seleccion_Producto.setText("Producto");
+        Seleccion_Producto.setBackground(new java.awt.Color(204, 204, 204));
+        Seleccion_Producto.setFont(new java.awt.Font("Corbel", 1, 18)); // NOI18N
+        Seleccion_Producto.setText("PRODUCTOS");
+        Seleccion_Producto.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.gray, java.awt.Color.white, null, null));
+        Seleccion_Producto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Seleccion_Producto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Seleccion_ProductoActionPerformed(evt);
             }
         });
+        jPanel2.add(Seleccion_Producto, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 360, 200, 80));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/folder/descarga.png"))); // NOI18N
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(147, 147, 147)
-                .addComponent(Seleccion_Producto, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 282, Short.MAX_VALUE)
-                .addComponent(Seleccion_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(145, 145, 145))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(352, 352, 352))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(121, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Seleccion_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Seleccion_Producto, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(76, 76, 76)
-                .addComponent(jLabel2)
-                .addGap(93, 93, 93))
-        );
+        FONDO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/folder/MEROY.jpg"))); // NOI18N
+        jPanel2.add(FONDO, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void Seleccion_GamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Seleccion_GamaActionPerformed
+      JFrame_Buscar_Gama buscar_Gama=new JFrame_Buscar_Gama();
+        buscar_Gama.setVisible(true);
+    }//GEN-LAST:event_Seleccion_GamaActionPerformed
+
+    private void Seleccion_ProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Seleccion_ProductoActionPerformed
+       JFrame_Buscar_Producto buscar_Producto=new JFrame_Buscar_Producto();
+        buscar_Producto.setVisible(true);
+    }//GEN-LAST:event_Seleccion_ProductoActionPerformed
+
     public JFrame_Main(JFrame_Buscar_Producto buscar_Producto, JButton Seleccion_Gama, JButton Seleccion_Producto, JLabel jLabel2, JPanel jPanel1) throws HeadlessException {
         this.buscar_Producto = buscar_Producto;
         this.Seleccion_Gama = Seleccion_Gama;
         this.Seleccion_Producto = Seleccion_Producto;
-        this.jLabel2 = jLabel2;
-        this.jPanel1 = jPanel1;
+        this.FONDO = jLabel2;
+        
     }
 public JFrame_Buscar_Producto buscar_Producto;
-    private void Seleccion_ProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Seleccion_ProductoActionPerformed
-        JFrame_Buscar_Producto buscar_Producto=new JFrame_Buscar_Producto();
-        buscar_Producto.setVisible(true);
-    }//GEN-LAST:event_Seleccion_ProductoActionPerformed
-
-    private void Seleccion_GamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Seleccion_GamaActionPerformed
-       JFrame_Buscar_Gama buscar_Gama=new JFrame_Buscar_Gama();
-        buscar_Gama.setVisible(true);
-    }//GEN-LAST:event_Seleccion_GamaActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -156,9 +136,9 @@ public JFrame_Buscar_Producto buscar_Producto;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel FONDO;
     private javax.swing.JButton Seleccion_Gama;
     private javax.swing.JButton Seleccion_Producto;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }
