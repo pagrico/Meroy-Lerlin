@@ -98,6 +98,12 @@ public class JFrame_Buscar_Producto extends javax.swing.JFrame {
 
         cbxSeleccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escoge uno...", "ID", "Nombre", "Gama", "Proveedor" }));
 
+        txtParametro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtParametroKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -186,13 +192,16 @@ public class JFrame_Buscar_Producto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
-        
-        mostrar();
+    Muestra();
     }//GEN-LAST:event_btnMostrarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         modificar();
     }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void txtParametroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtParametroKeyTyped
+      mostrar();
+    }//GEN-LAST:event_txtParametroKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup Grupo_busc_Prod;
@@ -210,43 +219,47 @@ public class JFrame_Buscar_Producto extends javax.swing.JFrame {
     private javax.swing.JTextField txtParametro;
     // End of variables declaration//GEN-END:variables
 
-    private void mostrar() {
-        String parametro = txtParametro.getText().trim();
+private void mostrar() {
+    modelo.setRowCount(0);
+    String parametro = txtParametro.getText().trim();
+    String itemSeleccionado = (String) cbxSeleccion.getSelectedItem();
+    
+    // Solo proceder si hay un item seleccionado y el parámetro no está vacío
+    if (itemSeleccionado != null && !parametro.isEmpty()) {
+        // Llama a la consulta para buscar los productos
+        List<Producto> productos = productoDAO.listar(itemSeleccionado, parametro);
         List<String> codigosHistorial = productoDAO.buscarHistorial();
-        String itemSeleccionado = (String) cbxSeleccion.getSelectedItem();
         
-        if (itemSeleccionado != null && parametro != "") {
-            //Llama a la consulta para puscar los productos
-            List<Producto> productos = productoDAO.listar(itemSeleccionado, parametro);
-            
-            //Llama a la funcion histprial y los codigos que sean en común no los mostrara, como si se huvieran eliminado
-            if (!productos.isEmpty()) {
-                
-                Object[] ob = new Object[2];
-                for (Producto producto : productos) {
-                    boolean isHistorial = false;
-                    ob[0] = producto.getCodigo_producto();
-                    ob[1] = producto.getNombre();
-                    
-                    for (int i = 0; i < codigosHistorial.size(); i++) {
-                        if (codigosHistorial.get(i).equalsIgnoreCase(ob[0].toString())) {
-                            isHistorial = true;
-                        }
-                    }
-                    if(!isHistorial) {
-                        modelo.addRow(ob);
-                    }
+        // Filtra los productos que no están en el historial
+        if (!productos.isEmpty()) {
+            boolean hayProductosNoHistorial = false;
+
+            for (Producto producto : productos) {
+                String codigoProducto = producto.getCodigo_producto();
+                if (!codigosHistorial.contains(codigoProducto)) {
+                    Object[] ob = { codigoProducto, producto.getNombre() };
+                    modelo.addRow(ob);
+                    hayProductosNoHistorial = true;
                 }
-                if(productos.size() == codigosHistorial.size()) {
-                        JOptionPane.showMessageDialog(null, "No hay ningun producto con ese parametro.");
-                    }
-            } else {
-                JOptionPane.showMessageDialog(null, "No hay ningun producto con ese parametro.");
+            }
+            
+            // Muestra un mensaje si no hay productos que mostrar
+            if (!hayProductosNoHistorial) {
+                JOptionPane.showMessageDialog(null, "No hay ningún producto con ese parámetro.");
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Por favor, seleccione un elemento de la lista y escriba el parametro.");
+            JOptionPane.showMessageDialog(null, "No hay ningún producto con ese parámetro.");
         }
     }
+    // No mostrar el mensaje de error si el parámetro está vacío durante la escritura
+    else if (itemSeleccionado == null) {
+        JOptionPane.showMessageDialog(null, "Por favor, seleccione un elemento de la lista.");
+    }
+}
+
+
+
+
 
     private void eliminar() {
         int filaSeleccionada = tablaProductos.getSelectedRow();
@@ -271,7 +284,24 @@ public class JFrame_Buscar_Producto extends javax.swing.JFrame {
             Producto producto = productos.get(0);
 
             gestionProducto.setVisible(true);
-            gestionProducto.enviarproducto(producto);
+            gestionProducto.enviarproducto(producto,0);
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila de la tabla.");
+        }
+    }
+    private void Muestra() {
+        gestionProducto = new JFrame_Gestion_Producto();
+
+        int filaSeleccionada = tablaProductos.getSelectedRow();
+
+        if (filaSeleccionada != -1) {
+            String parametro = tablaProductos.getValueAt(filaSeleccionada, 0).toString();
+            List<Producto> productos = productoDAO.listar("ID", parametro);
+            
+            Producto producto = productos.get(0);
+
+            gestionProducto.setVisible(true);
+            gestionProducto.enviarproducto(producto,1);
         } else {
             JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila de la tabla.");
         }

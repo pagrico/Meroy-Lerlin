@@ -87,7 +87,9 @@ public class JFrame_Gestion_Producto extends javax.swing.JFrame {
         txtCantidadStock.setEnabled(false);
 
         txtDescripcion.setColumns(20);
+        txtDescripcion.setLineWrap(true);
         txtDescripcion.setRows(5);
+        txtDescripcion.setWrapStyleWord(true);
         jScrollPane1.setViewportView(txtDescripcion);
 
         cbxGama.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Aromáticas", "Frutales", "Herbaceas", "Herramientas", "Ornamentales" }));
@@ -99,16 +101,16 @@ public class JFrame_Gestion_Producto extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(153, 153, 153)
                 .addComponent(btn_Cerrar_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(128, 128, 128)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(145, 145, 145))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -122,7 +124,7 @@ public class JFrame_Gestion_Producto extends javax.swing.JFrame {
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(cbxGama, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -229,10 +231,13 @@ public class JFrame_Gestion_Producto extends javax.swing.JFrame {
     private Producto producto;
     private JFrame_Buscar_Producto tablaProducto;
 
-    public void enviarproducto(Producto producto) {
+    public void enviarproducto(Producto producto, int tipo) {
         this.producto = producto;
         confirmar = true;
         mostrarDatos();
+        if (tipo == 1) {
+            Muestra();
+        }
     }
 
     private void agregar() {
@@ -251,15 +256,37 @@ public class JFrame_Gestion_Producto extends javax.swing.JFrame {
     }
 
     private void mostrarDatos() {
+        // El primer campo no debe ser editable
         txtCodigoProducto.setText(producto.getCodigo_producto());
+        txtCodigoProducto.setEditable(false);
+
+        // Los demás campos deben ser editables
         txtNombre.setText(producto.getNombre());
+        txtNombre.setEditable(true);
+
         cbxGama.setSelectedItem(producto.getGama());
+        cbxGama.setEnabled(true);
+
         txtDimensiones.setText(producto.getDimensiones());
+        txtDimensiones.setEditable(true);
+
         txtProveedor.setText(producto.getProveedor());
+        txtProveedor.setEditable(true);
+
         txtDescripcion.setText(producto.getDescripcion());
+        txtDescripcion.setEditable(true);
+
         txtCantidadStock.setText(String.valueOf(producto.getCantidad_en_stock()));
+        txtCantidadStock.setEditable(true);
+
         txtPrecioVenta.setText(String.valueOf(producto.getPrecio_venta()));
+        txtPrecioVenta.setEditable(true);
+
         txtPrecioProveedor.setText(String.valueOf(producto.getPrecio_proveedor()));
+        txtPrecioProveedor.setEditable(true);
+        
+        btnConfirmar.setVisible(true);
+
     }
 
     private void actualizar() {
@@ -276,4 +303,36 @@ public class JFrame_Gestion_Producto extends javax.swing.JFrame {
         productoDAO.actualizar(ob);
         buscar_Producto.limpiarTabla();
     }
+
+    private void Muestra() {
+
+        txtCodigoProducto.setText(producto.getCodigo_producto());
+        txtCodigoProducto.setEditable(false);
+
+        txtNombre.setText(producto.getNombre());
+        txtNombre.setEditable(false);
+
+        cbxGama.setSelectedItem(producto.getGama());
+        cbxGama.setEnabled(false);
+
+        txtDimensiones.setText(producto.getDimensiones());
+        txtDimensiones.setEditable(false);
+
+        txtProveedor.setText(producto.getProveedor());
+        txtProveedor.setEditable(false);
+
+        txtDescripcion.setText(producto.getDescripcion());
+        txtDescripcion.setEditable(false);
+
+        txtCantidadStock.setText(String.valueOf(producto.getCantidad_en_stock()));
+        txtCantidadStock.setEditable(false);
+
+        txtPrecioVenta.setText(String.valueOf(producto.getPrecio_venta()));
+        txtPrecioVenta.setEditable(false);
+
+        txtPrecioProveedor.setText(String.valueOf(producto.getPrecio_proveedor()));
+        txtPrecioProveedor.setEditable(false);
+        btnConfirmar.setVisible(false);
+    }
+
 }
