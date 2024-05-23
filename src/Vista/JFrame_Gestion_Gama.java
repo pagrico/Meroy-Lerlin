@@ -4,11 +4,8 @@
  */
 package Vista;
 
-import java.awt.Component;
-import java.util.ArrayList;
-import javax.swing.JTable;
+import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
-import modelos.GamaProductoDAO;
 import modelos.GamaProducto;
 
 /**
@@ -209,21 +206,32 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame implements Interfaz 
 
     }
 
-    private void Anadir() {
+  private void Anadir() {
 
-        JT_Gama.setEditable(true);
-        String gama = JT_Gama.getText().trim();
-        String Desc = JT_Descripcion.getText().trim();
-        String HTML = JTHTML.getText().trim();
-        String IMG = JTIMG.getText().trim();
-        Object[] o = {gama, Desc, HTML, IMG};
-        Gama_DAO.agregar(o);
-        GamaProducto aux = new GamaProducto(gama, Desc, HTML, IMG);
-        Buscar_Gama.Array_Gama_Productos.add(aux);
-        Buscar_Gama.filtrar();
-        Cerrar();
+    JT_Gama.setEditable(true);
+    String gama = JT_Gama.getText().trim();
+    String Desc = JT_Descripcion.getText().trim();
+    String HTML = JTHTML.getText().trim();
+    String IMG = JTIMG.getText().trim();
 
+    // Verificar si la gama ya existe
+    for (GamaProducto producto : Buscar_Gama.Array_Gama_Productos) {
+        if (producto.getGama().equalsIgnoreCase(gama)) {
+            JOptionPane.showMessageDialog(null, "Ya existe una gama con ese nombre.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Salir del método si la gama ya existe
+        }
     }
+
+    // Si no existe, proceder con la adición
+    Object[] o = {gama, Desc, HTML, IMG};
+    Gama_DAO.agregar(o);
+    GamaProducto aux = new GamaProducto(gama, Desc, HTML, IMG);
+    Buscar_Gama.Array_Gama_Productos.add(aux);
+    Buscar_Gama.filtrar();
+    Cerrar();
+}
+
+
 
     public void Muestra_Anadir() {
         Btn_Gestion_Gama.setVisible(true);

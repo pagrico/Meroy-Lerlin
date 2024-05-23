@@ -1,9 +1,10 @@
 package Vista;
 
+import javax.swing.JOptionPane;
 import modelos.Producto;
 import modelos.ProductoDAO;
 
-public class JFrame_Gestion_Producto extends javax.swing.JFrame {
+public class JFrame_Gestion_Producto extends javax.swing.JFrame implements Interfaz {
 
     JFrame_Buscar_Producto buscar_Producto;
     ProductoDAO productoDAO;
@@ -82,9 +83,12 @@ public class JFrame_Gestion_Producto extends javax.swing.JFrame {
             }
         });
 
-        txtCodigoProducto.setEnabled(false);
-
-        txtCantidadStock.setEnabled(false);
+        txtCodigoProducto.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtCodigoProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoProductoActionPerformed(evt);
+            }
+        });
 
         txtDescripcion.setColumns(20);
         txtDescripcion.setLineWrap(true);
@@ -204,6 +208,10 @@ public class JFrame_Gestion_Producto extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
+    private void txtCodigoProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoProductoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoProductoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnConfirmar;
     private javax.swing.JToggleButton btn_Cerrar_Gama;
@@ -234,25 +242,67 @@ public class JFrame_Gestion_Producto extends javax.swing.JFrame {
     public void enviarproducto(Producto producto, int tipo) {
         this.producto = producto;
         confirmar = true;
-        mostrarDatos();
+
         if (tipo == 1) {
             Muestra();
+        } else {
+            mostrarDatos();
         }
     }
 
     private void agregar() {
-        Producto producto = new Producto(
-                txtCodigoProducto.getText(),
-                txtNombre.getText(),
-                cbxGama.getSelectedItem().toString(),
-                txtDimensiones.getText(),
-                txtProveedor.getText(),
-                txtDescripcion.getText(),
-                Integer.parseInt(txtCantidadStock.getText()),
-                Float.parseFloat(txtPrecioVenta.getText()),
-                Float.parseFloat(txtPrecioProveedor.getText())
-        );
-        productoDAO.agregar(producto);
+        // Verificar que los campos obligatorios no estén vacíos
+        if (camposObligatoriosLlenos() && camposNumericosValidos()) {
+            // Crear el objeto Producto si los campos son válidos
+            Producto producto = new Producto(
+                    txtCodigoProducto.getText(),
+                    txtNombre.getText(),
+                    cbxGama.getSelectedItem().toString(),
+                    txtDimensiones.getText(),
+                    txtProveedor.getText(),
+                    txtDescripcion.getText(),
+                    Integer.parseInt(txtCantidadStock.getText()),
+                    Float.parseFloat(txtPrecioVenta.getText()),
+                    Float.parseFloat(txtPrecioProveedor.getText())
+            );
+
+            // Agregar el producto a la base de datos
+            productoDAO.agregar(producto);
+            productos.add(producto);
+
+            // Limpiar los campos después de agregar el producto
+            this.dispose();
+
+            // Mensaje de éxito
+            JOptionPane.showMessageDialog(null, "Producto agregado correctamente.");
+        }
+    }
+
+    private boolean camposObligatoriosLlenos() {
+        // Verificar que los campos obligatorios no estén vacíos
+        if (txtCodigoProducto.getText().isEmpty() || txtNombre.getText().isEmpty() || cbxGama.getSelectedIndex() == -1) {
+            JOptionPane.showMessageDialog(null, "Por favor, llene todos los campos obligatorios.");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean camposNumericosValidos() {
+        // Verificar que los campos numéricos contengan valores válidos
+        try {
+            int cantidadStock = Integer.parseInt(txtCantidadStock.getText());
+            float precioVenta = Float.parseFloat(txtPrecioVenta.getText());
+            float precioProveedor = Float.parseFloat(txtPrecioProveedor.getText());
+            // Verificar que los precios sean mayores que cero
+            if (cantidadStock <= 0 || precioVenta <= 0 || precioProveedor <= 0) {
+                JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos (mayores que cero) para la cantidad en stock y los precios.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos para la cantidad en stock y los precios.");
+            return false;
+        }
+        return true;
     }
 
     private void mostrarDatos() {
@@ -284,7 +334,7 @@ public class JFrame_Gestion_Producto extends javax.swing.JFrame {
 
         txtPrecioProveedor.setText(String.valueOf(producto.getPrecio_proveedor()));
         txtPrecioProveedor.setEditable(true);
-        
+
         btnConfirmar.setVisible(true);
 
     }

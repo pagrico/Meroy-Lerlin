@@ -1,12 +1,14 @@
 package Vista;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import modelos.GamaProducto;
 import modelos.Producto;
 import modelos.ProductoDAO;
 
-public class JFrame_Buscar_Producto extends javax.swing.JFrame {
+public class JFrame_Buscar_Producto extends javax.swing.JFrame implements Interfaz {
 
     ProductoDAO productoDAO;
     DefaultTableModel modelo;
@@ -21,6 +23,7 @@ public class JFrame_Buscar_Producto extends javax.swing.JFrame {
         modelo.addColumn("ID");
         modelo.addColumn("Nombre");
         tablaProductos.setModel(modelo);
+        mostrarTablaCompleta();
     }
 
     @SuppressWarnings("unchecked")
@@ -97,6 +100,11 @@ public class JFrame_Buscar_Producto extends javax.swing.JFrame {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "BUSCAR", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ebrima", 1, 24))); // NOI18N
 
         cbxSeleccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escoge uno...", "ID", "Nombre", "Gama", "Proveedor" }));
+        cbxSeleccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxSeleccionActionPerformed(evt);
+            }
+        });
 
         txtParametro.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -203,6 +211,10 @@ public class JFrame_Buscar_Producto extends javax.swing.JFrame {
       mostrar();
     }//GEN-LAST:event_txtParametroKeyTyped
 
+    private void cbxSeleccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSeleccionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxSeleccionActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup Grupo_busc_Prod;
     private javax.swing.JButton btnAniadir;
@@ -220,24 +232,56 @@ public class JFrame_Buscar_Producto extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
 private void mostrar() {
-    modelo.setRowCount(0);
-    String parametro = txtParametro.getText().trim();
-    String itemSeleccionado = (String) cbxSeleccion.getSelectedItem();
-    
+    modelo.setRowCount(0); // Limpiar la tabla
+    String parametro = txtParametro.getText().trim(); // Obtener el texto del campo de parámetro
+    String itemSeleccionado = (String) cbxSeleccion.getSelectedItem(); // Obtener el item seleccionado del combobox
+
+    // Verificar si el parámetro está vacío
+    if (parametro.isEmpty()) {
+        mostrarTablaCompleta(); // Llamar a la función que muestra todos los datos
+        return;
+    }
+
     // Solo proceder si hay un item seleccionado y el parámetro no está vacío
-    if (itemSeleccionado != null && !parametro.isEmpty()) {
-        // Llama a la consulta para buscar los productos
-        List<Producto> productos = productoDAO.listar(itemSeleccionado, parametro);
-        List<String> codigosHistorial = productoDAO.buscarHistorial();
+    if (itemSeleccionado != null) {
+        List<Producto> productosFiltrados = new ArrayList<>();
+        
+        // Filtrar productos en base a la selección del combobox
+        for (Producto producto :productos) { // Asumiendo que tienes una lista llamada listaProductos
+            boolean coincide = false;
+
+            switch (itemSeleccionado) {
+                case "ID":
+                    coincide = producto.getCodigo_producto().toLowerCase().contains(parametro.toLowerCase());
+                    break;
+                case "Nombre":
+                    coincide = producto.getNombre().toLowerCase().contains(parametro.toLowerCase());
+                    break;
+                case "Gama":
+                    coincide = producto.getGama().toLowerCase().contains(parametro.toLowerCase());
+                    break;
+                case "Proveedor":
+                    coincide = producto.getProveedor().toLowerCase().contains(parametro.toLowerCase());
+                    break;
+                // Agrega más casos según sea necesario
+                default:
+                    JOptionPane.showMessageDialog(null, "Selección no válida.");
+                    return;
+            }
+            
+            if (coincide) {
+                productosFiltrados.add(producto);
+            }
+        }
         
         // Filtra los productos que no están en el historial
-        if (!productos.isEmpty()) {
+        if (!productosFiltrados.isEmpty()) {
             boolean hayProductosNoHistorial = false;
 
-            for (Producto producto : productos) {
+            for (Producto producto : productosFiltrados) {
                 String codigoProducto = producto.getCodigo_producto();
                 if (!codigosHistorial.contains(codigoProducto)) {
-                    Object[] ob = { codigoProducto, producto.getNombre() };
+                    Object[] ob = { codigoProducto, producto.getNombre(), producto.getGama(), producto.getProveedor() };
                     modelo.addRow(ob);
                     hayProductosNoHistorial = true;
                 }
@@ -256,6 +300,20 @@ private void mostrar() {
         JOptionPane.showMessageDialog(null, "Por favor, seleccione un elemento de la lista.");
     }
 }
+
+private void mostrarTablaCompleta() {
+    for (Producto producto : productos) {
+        Object[] ob = { 
+            producto.getCodigo_producto(), 
+            producto.getNombre(), 
+            producto.getGama(), 
+            producto.getProveedor() 
+        };
+        modelo.addRow(ob);
+    }
+}
+
+
 
 
 
@@ -279,9 +337,12 @@ private void mostrar() {
 
         if (filaSeleccionada != -1) {
             String parametro = tablaProductos.getValueAt(filaSeleccionada, 0).toString();
-            List<Producto> productos = productoDAO.listar("ID", parametro);
             
-            Producto producto = productos.get(0);
+            for (GamaProducto Array_Gama_Producto : Array_Gama_Productos) {
+                if()
+                Producto producto = ;
+            }
+            
 
             gestionProducto.setVisible(true);
             gestionProducto.enviarproducto(producto,0);
@@ -296,7 +357,7 @@ private void mostrar() {
 
         if (filaSeleccionada != -1) {
             String parametro = tablaProductos.getValueAt(filaSeleccionada, 0).toString();
-            List<Producto> productos = productoDAO.listar("ID", parametro);
+            
             
             Producto producto = productos.get(0);
 

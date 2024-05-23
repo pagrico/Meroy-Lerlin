@@ -22,29 +22,16 @@ public class ProductoDAO {
     Statement st;
     ResultSet rs;
 
-    public List<Producto> listar(String busquedaPor, String parametro) {
+    public List<Producto> listar() {
         String sql = "";
         List<Producto> productos = new ArrayList<>();
 
         try {
-            switch (busquedaPor) {
-                case "ID":
-                    sql = "SELECT * FROM producto WHERE lower(codigo_producto) LIKE ?";
-                    break;
-                case "Nombre":
-                    sql = "SELECT * FROM producto WHERE lower(nombre) LIKE ?";
-                    break;
-                case "Gama":
-                    sql = "SELECT * FROM producto WHERE lower(gama) LIKE ?";
-                    break;
-                case "Proveedor":
-                    sql = "SELECT * FROM producto WHERE lower(proveedor) LIKE ?";
-                    break;
-            }
+            sql = "SELECT * FROM producto";
+            
 
             // Utilizar una consulta parametrizada para evitar SQL Injection
             ps = con.prepareStatement(sql);
-            ps.setString(1, "%" + parametro.toLowerCase() + "%");
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -62,9 +49,7 @@ public class ProductoDAO {
                 productos.add(producto);
             }
 
-            if (productos.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "No se encontraron productos para el parámetro: " + parametro, "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
-            }
+            
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error: " + e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -72,7 +57,7 @@ public class ProductoDAO {
     }
 
     public void agregar(Producto producto) {
-        String sql = "INSERT INTO Producto(codigo_producto, nombre, gama, dimensiones, proveedor, descripcion, cantidad_en_stock, "
+        String sql = "INSERT INTO producto(codigo_producto, nombre, gama, dimensiones, proveedor, descripcion, cantidad_en_stock, "
                 + "precio_venta, precio_proveedor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
@@ -158,7 +143,7 @@ public class ProductoDAO {
         List<Producto> lista = new ArrayList<>();
         String parametroConsulta = "";
         List<String> codigosHistorial = buscarHistorial();
-        String sql = "SELECT * FROM Producto WHERE lower(codigo_producto) LIKE IN (?)";
+        String sql = "SELECT * FROM producto WHERE lower(codigo_producto) LIKE IN (?)";
 
         if (!codigosHistorial.isEmpty()) {
             for (int i = 0; i < codigosHistorial.size(); i++) {

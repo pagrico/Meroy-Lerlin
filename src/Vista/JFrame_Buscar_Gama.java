@@ -245,20 +245,28 @@ public class JFrame_Buscar_Gama extends javax.swing.JFrame implements Interfaz {
 
     private void Eliminar_gamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Eliminar_gamaActionPerformed
 
-        GamaProducto gama = Objeto();
-        Iterator<GamaProducto> iterador = Array_Gama_Productos.iterator();
+    // Verificar si hay algún elemento seleccionado en la tabla
+      int selectedRow = Tabla_Gama.getSelectedRow();
+    if (selectedRow == -1) {
+        // Mostrar mensaje de error si no hay ninguna fila seleccionada
+        JOptionPane.showMessageDialog(null, "Debe seleccionar un elemento de la tabla.", "Error", JOptionPane.ERROR_MESSAGE);
+        return; // Salir del método si no hay selección
+    }
 
-        // Iterar sobre la lista de productos
-        while (iterador.hasNext()) {
-            GamaProducto productoActual = iterador.next(); // Obtener el objeto actual del iterador
-            if (gama.equals(productoActual)) { // Comparar el objeto gama con el objeto actual
-                iterador.remove(); // Eliminar el objeto actual del iterador
-                Gama_DAO.eliminar(productoActual.getGama()); // Eliminar el objeto actual de la base de datos
-            }
+    // Si hay un elemento seleccionado, proceder con la eliminación
+    GamaProducto gama = Objeto();
+    Iterator<GamaProducto> iterador = Array_Gama_Productos.iterator();
+
+    // Iterar sobre la lista de productos
+    while (iterador.hasNext()) {
+        GamaProducto productoActual = iterador.next(); // Obtener el objeto actual del iterador
+        if (gama.equals(productoActual)) { // Comparar el objeto gama con el objeto actual
+            iterador.remove(); // Eliminar el objeto actual del iterador
+            Gama_DAO.eliminar(productoActual.getGama()); // Eliminar el objeto actual de la base de datos
         }
-        LimpiarTabla();
-        Tabla_inicio();
-
+    }
+    LimpiarTabla();
+    Tabla_inicio();
     }//GEN-LAST:event_Eliminar_gamaActionPerformed
 
     public void Abrir(int seleccionado) {
