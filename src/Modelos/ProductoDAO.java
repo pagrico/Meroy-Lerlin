@@ -73,7 +73,7 @@ public class ProductoDAO {
             ps.setFloat(9, producto.getPrecio_proveedor());
 
             int resultado = ps.executeUpdate();
-            if (resultado == 9) {
+            if (resultado >0) {
                 JOptionPane.showMessageDialog(null, "La inserción se realizó correctamente");
             } else {
                 JOptionPane.showMessageDialog(null, "Error al insertar el producto", "Error", JOptionPane.ERROR_MESSAGE);

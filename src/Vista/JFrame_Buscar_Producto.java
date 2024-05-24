@@ -1,10 +1,10 @@
 package Vista;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import modelos.GamaProducto;
 import modelos.Producto;
 import modelos.ProductoDAO;
 
@@ -13,7 +13,7 @@ public class JFrame_Buscar_Producto extends javax.swing.JFrame implements Interf
     ProductoDAO productoDAO;
     DefaultTableModel modelo;
     JFrame_Gestion_Producto gestionProducto;
-    
+
     public JFrame_Buscar_Producto() {
         productoDAO = new ProductoDAO();
         modelo = new DefaultTableModel();
@@ -43,6 +43,7 @@ public class JFrame_Buscar_Producto extends javax.swing.JFrame implements Interf
         jPanel5 = new javax.swing.JPanel();
         cbxSeleccion = new javax.swing.JComboBox<>();
         txtParametro = new javax.swing.JTextField();
+        Btn_stock = new javax.swing.JButton();
 
         jMenu1.setText("jMenu1");
 
@@ -112,13 +113,22 @@ public class JFrame_Buscar_Producto extends javax.swing.JFrame implements Interf
             }
         });
 
+        Btn_stock.setText("Cambiar Stock");
+        Btn_stock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_stockActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(48, 48, 48)
-                .addComponent(txtParametro, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(Btn_stock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtParametro, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE))
                 .addGap(29, 29, 29)
                 .addComponent(cbxSeleccion, 0, 172, Short.MAX_VALUE)
                 .addGap(34, 34, 34))
@@ -130,7 +140,9 @@ public class JFrame_Buscar_Producto extends javax.swing.JFrame implements Interf
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtParametro, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbxSeleccion))
-                .addGap(128, 128, 128))
+                .addGap(33, 33, 33)
+                .addComponent(Btn_stock)
+                .addGap(71, 71, 71))
         );
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -140,7 +152,7 @@ public class JFrame_Buscar_Producto extends javax.swing.JFrame implements Interf
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(btnAniadir, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -176,7 +188,10 @@ public class JFrame_Buscar_Producto extends javax.swing.JFrame implements Interf
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,7 +215,7 @@ public class JFrame_Buscar_Producto extends javax.swing.JFrame implements Interf
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
-    Muestra();
+        Muestra();
     }//GEN-LAST:event_btnMostrarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
@@ -208,14 +223,19 @@ public class JFrame_Buscar_Producto extends javax.swing.JFrame implements Interf
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void txtParametroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtParametroKeyTyped
-      mostrar();
+        mostrar();
     }//GEN-LAST:event_txtParametroKeyTyped
 
     private void cbxSeleccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSeleccionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxSeleccionActionPerformed
 
+    private void Btn_stockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_stockActionPerformed
+        Cambiar_Stock();
+    }//GEN-LAST:event_Btn_stockActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Btn_stock;
     private javax.swing.ButtonGroup Grupo_busc_Prod;
     private javax.swing.JButton btnAniadir;
     private javax.swing.JButton btnEliminar;
@@ -230,105 +250,152 @@ public class JFrame_Buscar_Producto extends javax.swing.JFrame implements Interf
     private javax.swing.JTable tablaProductos;
     private javax.swing.JTextField txtParametro;
     // End of variables declaration//GEN-END:variables
+   private void Cambiar_Stock() {
+    int filaSeleccionada = tablaProductos.getSelectedRow();
 
-private void mostrar() {
-    modelo.setRowCount(0); // Limpiar la tabla
-    String parametro = txtParametro.getText().trim(); // Obtener el texto del campo de parámetro
-    String itemSeleccionado = (String) cbxSeleccion.getSelectedItem(); // Obtener el item seleccionado del combobox
+    if (filaSeleccionada != -1) {
+        String parametro = tablaProductos.getValueAt(filaSeleccionada, 0).toString();
+        Producto aux = null;
 
-    // Verificar si el parámetro está vacío
-    if (parametro.isEmpty()) {
-        mostrarTablaCompleta(); // Llamar a la función que muestra todos los datos
-        return;
-    }
-
-    // Solo proceder si hay un item seleccionado y el parámetro no está vacío
-    if (itemSeleccionado != null) {
-        List<Producto> productosFiltrados = new ArrayList<>();
-        
-        // Filtrar productos en base a la selección del combobox
-        for (Producto producto :productos) { // Asumiendo que tienes una lista llamada listaProductos
-            boolean coincide = false;
-
-            switch (itemSeleccionado) {
-                case "ID":
-                    coincide = producto.getCodigo_producto().toLowerCase().contains(parametro.toLowerCase());
-                    break;
-                case "Nombre":
-                    coincide = producto.getNombre().toLowerCase().contains(parametro.toLowerCase());
-                    break;
-                case "Gama":
-                    coincide = producto.getGama().toLowerCase().contains(parametro.toLowerCase());
-                    break;
-                case "Proveedor":
-                    coincide = producto.getProveedor().toLowerCase().contains(parametro.toLowerCase());
-                    break;
-                // Agrega más casos según sea necesario
-                default:
-                    JOptionPane.showMessageDialog(null, "Selección no válida.");
-                    return;
-            }
-            
-            if (coincide) {
-                productosFiltrados.add(producto);
+        for (Producto producto : productos) {
+            if (producto.getCodigo_producto().equals(parametro)) {
+                aux = producto;
+                break; // Salir del bucle una vez encontrado el producto
             }
         }
-        
-        // Filtra los productos que no están en el historial
-        if (!productosFiltrados.isEmpty()) {
-            boolean hayProductosNoHistorial = false;
 
-            for (Producto producto : productosFiltrados) {
-                String codigoProducto = producto.getCodigo_producto();
-                if (!codigosHistorial.contains(codigoProducto)) {
-                    Object[] ob = { codigoProducto, producto.getNombre(), producto.getGama(), producto.getProveedor() };
-                    modelo.addRow(ob);
-                    hayProductosNoHistorial = true;
+        if (aux != null) {
+            try {
+                int nuevoStock = Integer.parseInt(JOptionPane.showInputDialog(null,"Introduce la nueva cantidad de stock para el producto: " + aux.getCodigo_producto()+"\nCantidad actual: " +aux.getCantidad_en_stock(),"Cambio de Stock",JOptionPane.WARNING_MESSAGE));
+                
+                int confirmacion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas cambiar el stock del producto: " + aux.getCodigo_producto() + " a " + nuevoStock + "?", "Confirmar Cambio de Stock", JOptionPane.YES_NO_OPTION);
+
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    // Actualizar el stock usando el método correspondiente
+                    productoDAO.actualizarStock(aux.getCodigo_producto(), nuevoStock);
+                    aux.setcantidad_stock(nuevoStock);
+                    
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Cantidad de stock no válida.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Producto no encontrado.");
+        }
+    } else {
+        JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila de la tabla.");
+    }
+}
+
+
+
+    private void mostrar() {
+        modelo.setRowCount(0); // Limpiar la tabla
+        String parametro = txtParametro.getText().trim(); // Obtener el texto del campo de parámetro
+        String itemSeleccionado = (String) cbxSeleccion.getSelectedItem(); // Obtener el item seleccionado del combobox
+
+        // Verificar si el parámetro está vacío
+        if (parametro.isEmpty()) {
+            mostrarTablaCompleta(); // Llamar a la función que muestra todos los datos
+            return;
+        }
+
+        // Solo proceder si hay un item seleccionado y el parámetro no está vacío
+        if (itemSeleccionado != null) {
+            List<Producto> productosFiltrados = new ArrayList<>();
+
+            // Filtrar productos en base a la selección del combobox
+            for (Producto producto : productos) { // Asumiendo que tienes una lista llamada listaProductos
+                boolean coincide = false;
+
+                switch (itemSeleccionado) {
+                    case "ID":
+                        coincide = producto.getCodigo_producto().toLowerCase().contains(parametro.toLowerCase());
+                        break;
+                    case "Nombre":
+                        coincide = producto.getNombre().toLowerCase().contains(parametro.toLowerCase());
+                        break;
+                    case "Gama":
+                        coincide = producto.getGama().toLowerCase().contains(parametro.toLowerCase());
+                        break;
+                    case "Proveedor":
+                        coincide = producto.getProveedor().toLowerCase().contains(parametro.toLowerCase());
+                        break;
+                    // Agrega más casos según sea necesario
+                    default:
+                        JOptionPane.showMessageDialog(null, "Selección no válida.");
+                        return;
+                }
+
+                if (coincide) {
+                    productosFiltrados.add(producto);
                 }
             }
-            
-            // Muestra un mensaje si no hay productos que mostrar
-            if (!hayProductosNoHistorial) {
+
+            // Filtra los productos que no están en el historial
+            if (!productosFiltrados.isEmpty()) {
+                boolean hayProductosNoHistorial = false;
+
+                for (Producto producto : productosFiltrados) {
+                    String codigoProducto = producto.getCodigo_producto();
+                    if (!codigosHistorial.contains(codigoProducto)) {
+                        Object[] ob = {codigoProducto, producto.getNombre(), producto.getGama(), producto.getProveedor()};
+                        modelo.addRow(ob);
+                        hayProductosNoHistorial = true;
+                    }
+                }
+
+                // Muestra un mensaje si no hay productos que mostrar
+                if (!hayProductosNoHistorial) {
+                    JOptionPane.showMessageDialog(null, "No hay ningún producto con ese parámetro.");
+                }
+            } else {
                 JOptionPane.showMessageDialog(null, "No hay ningún producto con ese parámetro.");
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "No hay ningún producto con ese parámetro.");
+        } // No mostrar el mensaje de error si el parámetro está vacío durante la escritura
+        else if (itemSeleccionado == null) {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione un elemento de la lista.");
         }
     }
-    // No mostrar el mensaje de error si el parámetro está vacío durante la escritura
-    else if (itemSeleccionado == null) {
-        JOptionPane.showMessageDialog(null, "Por favor, seleccione un elemento de la lista.");
+
+    public void mostrarTablaCompleta() {
+        for (Producto producto : productos) {
+            Object[] ob = {
+                producto.getCodigo_producto(),
+                producto.getNombre(),
+                producto.getGama(),
+                producto.getProveedor()
+            };
+            modelo.addRow(ob);
+        }
     }
-}
-
-private void mostrarTablaCompleta() {
-    for (Producto producto : productos) {
-        Object[] ob = { 
-            producto.getCodigo_producto(), 
-            producto.getNombre(), 
-            producto.getGama(), 
-            producto.getProveedor() 
-        };
-        modelo.addRow(ob);
-    }
-}
-
-
-
-
-
-
 
     private void eliminar() {
-        int filaSeleccionada = tablaProductos.getSelectedRow();
+    int filaSeleccionada = tablaProductos.getSelectedRow();
 
-        if (filaSeleccionada != -1) {
-            String celda = tablaProductos.getValueAt(filaSeleccionada, 0).toString();
-            productoDAO.eliminar(celda);
-        } else {
-            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila de la tabla.");
+    if (filaSeleccionada != -1) {
+        String celda = tablaProductos.getValueAt(filaSeleccionada, 0).toString();
+        
+        // Eliminar el producto de la base de datos
+        productoDAO.eliminar(celda);
+        
+        // Eliminar el producto del ArrayList productos usando un Iterator
+        Iterator<Producto> iterator = productos.iterator();
+        while (iterator.hasNext()) {
+            Producto producto = iterator.next();
+            if (producto.getCodigo_producto().equals(celda)) {
+                iterator.remove();
+                break;
+            }
         }
+
+        // Mensaje de éxito
+        JOptionPane.showMessageDialog(null, "Producto eliminado correctamente.");
+    } else {
+        JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila de la tabla.");
     }
+}
+
 
     private void modificar() {
         gestionProducto = new JFrame_Gestion_Producto();
@@ -337,19 +404,26 @@ private void mostrarTablaCompleta() {
 
         if (filaSeleccionada != -1) {
             String parametro = tablaProductos.getValueAt(filaSeleccionada, 0).toString();
-            
-            for (GamaProducto Array_Gama_Producto : Array_Gama_Productos) {
-                if()
-                Producto producto = ;
-            }
-            
+            Producto aux = null;
 
-            gestionProducto.setVisible(true);
-            gestionProducto.enviarproducto(producto,0);
+            for (Producto producto : productos) {
+                if (producto.getCodigo_producto().equals(parametro)) {
+                    aux = producto;
+                    break; // Salir del bucle una vez encontrado el producto
+                }
+            }
+
+            if (aux != null) {
+                gestionProducto.setVisible(true);
+                gestionProducto.enviarproducto(aux, 0);
+            } else {
+                JOptionPane.showMessageDialog(null, "Producto no encontrado.");
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila de la tabla.");
         }
     }
+
     private void Muestra() {
         gestionProducto = new JFrame_Gestion_Producto();
 
@@ -357,18 +431,27 @@ private void mostrarTablaCompleta() {
 
         if (filaSeleccionada != -1) {
             String parametro = tablaProductos.getValueAt(filaSeleccionada, 0).toString();
-            
-            
-            Producto producto = productos.get(0);
+            Producto aux = null;
 
-            gestionProducto.setVisible(true);
-            gestionProducto.enviarproducto(producto,1);
+            for (Producto producto : productos) {
+                if (producto.getCodigo_producto().equals(parametro)) {
+                    aux = producto;
+                    break; // Salir del bucle una vez encontrado el producto
+                }
+            }
+
+            if (aux != null) {
+                gestionProducto.setVisible(true);
+                gestionProducto.enviarproducto(aux, 1);
+            } else {
+                JOptionPane.showMessageDialog(null, "Producto no encontrado.");
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila de la tabla.");
         }
     }
-    
-    public void limpiarTabla(){
+
+    public void limpiarTabla() {
         modelo.setRowCount(0);
     }
 
@@ -376,4 +459,5 @@ private void mostrarTablaCompleta() {
         gestionProducto = new JFrame_Gestion_Producto();
         gestionProducto.setVisible(true);
     }
+    
 }

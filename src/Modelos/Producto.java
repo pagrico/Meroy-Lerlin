@@ -98,4 +98,7 @@ public class Producto {
     public void setPrecio_proveedor(float precio_proveedor) {
         this.precio_proveedor = precio_proveedor;
     }
+    public void setcantidad_stock(int cantidad_stock){
+        this.cantidad_en_stock=cantidad_stock;
+    }
 }

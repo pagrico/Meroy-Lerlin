@@ -9,6 +9,7 @@ public class JFrame_Gestion_Producto extends javax.swing.JFrame implements Inter
     JFrame_Buscar_Producto buscar_Producto;
     ProductoDAO productoDAO;
     boolean confirmar = false;
+    JFrame_Buscar_Producto buscarProducto;
 
     public JFrame_Gestion_Producto() {
         productoDAO = new ProductoDAO();
@@ -251,16 +252,16 @@ public class JFrame_Gestion_Producto extends javax.swing.JFrame implements Inter
     }
 
     private void agregar() {
-        // Verificar que los campos obligatorios no estén vacíos
+        // Verificar que los campos obligatorios no estén vacíos y los campos numéricos sean válidos
         if (camposObligatoriosLlenos() && camposNumericosValidos()) {
             // Crear el objeto Producto si los campos son válidos
             Producto producto = new Producto(
                     txtCodigoProducto.getText(),
                     txtNombre.getText(),
                     cbxGama.getSelectedItem().toString(),
-                    txtDimensiones.getText(),
-                    txtProveedor.getText(),
-                    txtDescripcion.getText(),
+                    txtDimensiones.getText().isEmpty() ? null : txtDimensiones.getText(),
+                    txtProveedor.getText().isEmpty() ? null : txtProveedor.getText(),
+                    txtDescripcion.getText().isEmpty() ? null : txtDescripcion.getText(),
                     Integer.parseInt(txtCantidadStock.getText()),
                     Float.parseFloat(txtPrecioVenta.getText()),
                     Float.parseFloat(txtPrecioProveedor.getText())
@@ -269,6 +270,7 @@ public class JFrame_Gestion_Producto extends javax.swing.JFrame implements Inter
             // Agregar el producto a la base de datos
             productoDAO.agregar(producto);
             productos.add(producto);
+            
 
             // Limpiar los campos después de agregar el producto
             this.dispose();
@@ -279,30 +281,33 @@ public class JFrame_Gestion_Producto extends javax.swing.JFrame implements Inter
     }
 
     private boolean camposObligatoriosLlenos() {
-        // Verificar que los campos obligatorios no estén vacíos
-        if (txtCodigoProducto.getText().isEmpty() || txtNombre.getText().isEmpty() || cbxGama.getSelectedIndex() == -1) {
-            JOptionPane.showMessageDialog(null, "Por favor, llene todos los campos obligatorios.");
+        // Verifica si la selección del ComboBox es válida
+        if (cbxGama.getSelectedItem() == null || cbxGama.getSelectedItem().toString().equals("Seleccionar")) {
+            JOptionPane.showMessageDialog(null, "Selecciona una gama válida.");
             return false;
         }
+
+        // Verifica si algún campo obligatorio está vacío
+        if (txtCodigoProducto.getText().isEmpty() || txtNombre.getText().isEmpty() || txtCantidadStock.getText().isEmpty()
+                || txtPrecioVenta.getText().isEmpty() || txtPrecioProveedor.getText().isEmpty()
+                || txtDimensiones.getText().isEmpty() || txtProveedor.getText().isEmpty() || txtDescripcion.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, introduce todos los datos obligatorios.");
+            return false;
+        }
+
         return true;
     }
 
     private boolean camposNumericosValidos() {
-        // Verificar que los campos numéricos contengan valores válidos
         try {
-            int cantidadStock = Integer.parseInt(txtCantidadStock.getText());
-            float precioVenta = Float.parseFloat(txtPrecioVenta.getText());
-            float precioProveedor = Float.parseFloat(txtPrecioProveedor.getText());
-            // Verificar que los precios sean mayores que cero
-            if (cantidadStock <= 0 || precioVenta <= 0 || precioProveedor <= 0) {
-                JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos (mayores que cero) para la cantidad en stock y los precios.");
-                return false;
-            }
+            Integer.parseInt(txtCantidadStock.getText());
+            Float.parseFloat(txtPrecioVenta.getText());
+            Float.parseFloat(txtPrecioProveedor.getText());
+            return true;
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos para la cantidad en stock y los precios.");
+            JOptionPane.showMessageDialog(null, "Los campos de cantidad, precio de venta y precio de proveedor deben ser numéricos.");
             return false;
         }
-        return true;
     }
 
     private void mostrarDatos() {
@@ -327,7 +332,7 @@ public class JFrame_Gestion_Producto extends javax.swing.JFrame implements Inter
         txtDescripcion.setEditable(true);
 
         txtCantidadStock.setText(String.valueOf(producto.getCantidad_en_stock()));
-        txtCantidadStock.setEditable(true);
+        txtCantidadStock.setEditable(false);
 
         txtPrecioVenta.setText(String.valueOf(producto.getPrecio_venta()));
         txtPrecioVenta.setEditable(true);
@@ -339,19 +344,37 @@ public class JFrame_Gestion_Producto extends javax.swing.JFrame implements Inter
 
     }
 
-    private void actualizar() {
-        Object[] ob = new Object[8];
-        ob[0] = txtCodigoProducto.getText();
-        ob[1] = txtNombre.getText();
-        ob[2] = cbxGama.getSelectedItem();
-        ob[3] = txtDimensiones.getText();
-        ob[4] = txtProveedor.getText();
-        ob[5] = txtDescripcion.getText();
-        ob[6] = txtPrecioVenta.getText();
-        ob[7] = txtPrecioProveedor.getText();
+        private void actualizar() {
+        try {
+            Object[] ob = new Object[8];
+            ob[0] = txtCodigoProducto.getText();
+            ob[1] = txtNombre.getText();
+            ob[2] = (String) cbxGama.getSelectedItem();
+            ob[3] = txtDimensiones.getText();
+            ob[4] = txtProveedor.getText();
+            ob[5] = txtDescripcion.getText();
+            ob[6] = Float.parseFloat(txtPrecioVenta.getText());
+            ob[7] = Float.parseFloat(txtPrecioProveedor.getText());
 
-        productoDAO.actualizar(ob);
-        buscar_Producto.limpiarTabla();
+            productoDAO.actualizar(ob);
+            buscar_Producto.limpiarTabla();
+
+            // Actualizar los valores del objeto producto asegurando la conversión adecuada
+            producto.setCodigo_producto((String) ob[0]);
+            producto.setNombre((String) ob[1]);
+            producto.setGama((String) ob[2]);
+            producto.setDimensiones((String) ob[3]);
+            producto.setProveedor((String) ob[4]);
+            producto.setDescripcion((String) ob[5]);
+            producto.setPrecio_venta((Float) ob[6]);
+            producto.setPrecio_proveedor((Float) ob[7]);
+        } catch (NumberFormatException e) {
+            // Manejar excepción si txtPrecioVenta o txtPrecioProveedor no se pueden convertir a float
+            JOptionPane.showMessageDialog(null, "Por favor, ingresa números válidos en los campos de precio.", "Entrada inválida", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            // Manejar cualquier otra excepción que pueda ocurrir
+            JOptionPane.showMessageDialog(null, "Ocurrió un error al actualizar el producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void Muestra() {
