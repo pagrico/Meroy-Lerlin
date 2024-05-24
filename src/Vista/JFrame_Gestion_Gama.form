@@ -93,7 +93,7 @@
                   </Group>
               </Group>
               <EmptySpace pref="70" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="btn_Cerrar_Gama" alignment="1" min="-2" pref="55" max="-2" attributes="0"/>
                   <Component id="Btn_Gestion_Gama" alignment="1" min="-2" pref="55" max="-2" attributes="0"/>
               </Group>

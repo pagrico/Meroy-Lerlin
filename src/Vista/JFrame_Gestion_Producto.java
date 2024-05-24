@@ -270,7 +270,6 @@ public class JFrame_Gestion_Producto extends javax.swing.JFrame implements Inter
             // Agregar el producto a la base de datos
             productoDAO.agregar(producto);
             productos.add(producto);
-            
 
             // Limpiar los campos después de agregar el producto
             this.dispose();
@@ -344,7 +343,7 @@ public class JFrame_Gestion_Producto extends javax.swing.JFrame implements Inter
 
     }
 
-        private void actualizar() {
+    private void actualizar() {
         try {
             Object[] ob = new Object[8];
             ob[0] = txtCodigoProducto.getText();

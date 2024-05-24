@@ -251,43 +251,41 @@ public class JFrame_Buscar_Producto extends javax.swing.JFrame implements Interf
     private javax.swing.JTextField txtParametro;
     // End of variables declaration//GEN-END:variables
    private void Cambiar_Stock() {
-    int filaSeleccionada = tablaProductos.getSelectedRow();
+        int filaSeleccionada = tablaProductos.getSelectedRow();
 
-    if (filaSeleccionada != -1) {
-        String parametro = tablaProductos.getValueAt(filaSeleccionada, 0).toString();
-        Producto aux = null;
+        if (filaSeleccionada != -1) {
+            String parametro = tablaProductos.getValueAt(filaSeleccionada, 0).toString();
+            Producto aux = null;
 
-        for (Producto producto : productos) {
-            if (producto.getCodigo_producto().equals(parametro)) {
-                aux = producto;
-                break; // Salir del bucle una vez encontrado el producto
-            }
-        }
-
-        if (aux != null) {
-            try {
-                int nuevoStock = Integer.parseInt(JOptionPane.showInputDialog(null,"Introduce la nueva cantidad de stock para el producto: " + aux.getCodigo_producto()+"\nCantidad actual: " +aux.getCantidad_en_stock(),"Cambio de Stock",JOptionPane.WARNING_MESSAGE));
-                
-                int confirmacion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas cambiar el stock del producto: " + aux.getCodigo_producto() + " a " + nuevoStock + "?", "Confirmar Cambio de Stock", JOptionPane.YES_NO_OPTION);
-
-                if (confirmacion == JOptionPane.YES_OPTION) {
-                    // Actualizar el stock usando el método correspondiente
-                    productoDAO.actualizarStock(aux.getCodigo_producto(), nuevoStock);
-                    aux.setcantidad_stock(nuevoStock);
-                    
+            for (Producto producto : productos) {
+                if (producto.getCodigo_producto().equals(parametro)) {
+                    aux = producto;
+                    break; // Salir del bucle una vez encontrado el producto
                 }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Cantidad de stock no válida.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+            if (aux != null) {
+                try {
+                    int nuevoStock = Integer.parseInt(JOptionPane.showInputDialog(null, "Introduce la nueva cantidad de stock para el producto: " + aux.getCodigo_producto() + "\nCantidad actual: " + aux.getCantidad_en_stock(), "Cambio de Stock", JOptionPane.WARNING_MESSAGE));
+
+                    int confirmacion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas cambiar el stock del producto: " + aux.getCodigo_producto() + " a " + nuevoStock + "?", "Confirmar Cambio de Stock", JOptionPane.YES_NO_OPTION);
+
+                    if (confirmacion == JOptionPane.YES_OPTION) {
+                        // Actualizar el stock usando el método correspondiente
+                        productoDAO.actualizarStock(aux.getCodigo_producto(), nuevoStock);
+                        aux.setcantidad_stock(nuevoStock);
+
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Cantidad de stock no válida.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Producto no encontrado.");
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Producto no encontrado.");
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila de la tabla.");
         }
-    } else {
-        JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila de la tabla.");
     }
-}
-
-
 
     private void mostrar() {
         modelo.setRowCount(0); // Limpiar la tabla
@@ -371,31 +369,30 @@ public class JFrame_Buscar_Producto extends javax.swing.JFrame implements Interf
     }
 
     private void eliminar() {
-    int filaSeleccionada = tablaProductos.getSelectedRow();
+        int filaSeleccionada = tablaProductos.getSelectedRow();
 
-    if (filaSeleccionada != -1) {
-        String celda = tablaProductos.getValueAt(filaSeleccionada, 0).toString();
-        
-        // Eliminar el producto de la base de datos
-        productoDAO.eliminar(celda);
-        
-        // Eliminar el producto del ArrayList productos usando un Iterator
-        Iterator<Producto> iterator = productos.iterator();
-        while (iterator.hasNext()) {
-            Producto producto = iterator.next();
-            if (producto.getCodigo_producto().equals(celda)) {
-                iterator.remove();
-                break;
+        if (filaSeleccionada != -1) {
+            String celda = tablaProductos.getValueAt(filaSeleccionada, 0).toString();
+
+            // Eliminar el producto de la base de datos
+            productoDAO.eliminar(celda);
+
+            // Eliminar el producto del ArrayList productos usando un Iterator
+            Iterator<Producto> iterator = productos.iterator();
+            while (iterator.hasNext()) {
+                Producto producto = iterator.next();
+                if (producto.getCodigo_producto().equals(celda)) {
+                    iterator.remove();
+                    break;
+                }
             }
+
+            // Mensaje de éxito
+            JOptionPane.showMessageDialog(null, "Producto eliminado correctamente.");
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila de la tabla.");
         }
-
-        // Mensaje de éxito
-        JOptionPane.showMessageDialog(null, "Producto eliminado correctamente.");
-    } else {
-        JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila de la tabla.");
     }
-}
-
 
     private void modificar() {
         gestionProducto = new JFrame_Gestion_Producto();
@@ -459,5 +456,5 @@ public class JFrame_Buscar_Producto extends javax.swing.JFrame implements Interf
         gestionProducto = new JFrame_Gestion_Producto();
         gestionProducto.setVisible(true);
     }
-    
+
 }

@@ -34,7 +34,7 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame implements Interfaz 
 
                 break;
             case 2:
-               
+
                 Muestra_Modificar();
                 break;
             case 3:
@@ -163,9 +163,9 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame implements Interfaz 
                         .addGap(31, 31, 31)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_Cerrar_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Btn_Gestion_Gama, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_Cerrar_Gama, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Gestion_Gama, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(58, 58, 58))
         );
 
@@ -206,32 +206,30 @@ public class JFrame_Gestion_Gama extends javax.swing.JFrame implements Interfaz 
 
     }
 
-  private void Anadir() {
+    private void Anadir() {
 
-    JT_Gama.setEditable(true);
-    String gama = JT_Gama.getText().trim();
-    String Desc = JT_Descripcion.getText().trim();
-    String HTML = JTHTML.getText().trim();
-    String IMG = JTIMG.getText().trim();
+        JT_Gama.setEditable(true);
+        String gama = JT_Gama.getText().trim();
+        String Desc = JT_Descripcion.getText().trim();
+        String HTML = JTHTML.getText().trim();
+        String IMG = JTIMG.getText().trim();
 
-    // Verificar si la gama ya existe
-    for (GamaProducto producto : Buscar_Gama.Array_Gama_Productos) {
-        if (producto.getGama().equalsIgnoreCase(gama)) {
-            JOptionPane.showMessageDialog(null, "Ya existe una gama con ese nombre.", "Error", JOptionPane.ERROR_MESSAGE);
-            return; // Salir del método si la gama ya existe
+        // Verificar si la gama ya existe
+        for (GamaProducto producto : Buscar_Gama.Array_Gama_Productos) {
+            if (producto.getGama().equalsIgnoreCase(gama)) {
+                JOptionPane.showMessageDialog(null, "Ya existe una gama con ese nombre.", "Error", JOptionPane.ERROR_MESSAGE);
+                return; // Salir del método si la gama ya existe
+            }
         }
+
+        // Si no existe, proceder con la adición
+        Object[] o = {gama, Desc, HTML, IMG};
+        Gama_DAO.agregar(o);
+        GamaProducto aux = new GamaProducto(gama, Desc, HTML, IMG);
+        Buscar_Gama.Array_Gama_Productos.add(aux);
+        Buscar_Gama.filtrar();
+        Cerrar();
     }
-
-    // Si no existe, proceder con la adición
-    Object[] o = {gama, Desc, HTML, IMG};
-    Gama_DAO.agregar(o);
-    GamaProducto aux = new GamaProducto(gama, Desc, HTML, IMG);
-    Buscar_Gama.Array_Gama_Productos.add(aux);
-    Buscar_Gama.filtrar();
-    Cerrar();
-}
-
-
 
     public void Muestra_Anadir() {
         Btn_Gestion_Gama.setVisible(true);

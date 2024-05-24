@@ -5,7 +5,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-
 /**
  *
  * @author Pablo
@@ -79,12 +78,12 @@ public class JFrame_Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Seleccion_GamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Seleccion_GamaActionPerformed
-      JFrame_Buscar_Gama buscar_Gama=new JFrame_Buscar_Gama();
+        JFrame_Buscar_Gama buscar_Gama = new JFrame_Buscar_Gama();
         buscar_Gama.setVisible(true);
     }//GEN-LAST:event_Seleccion_GamaActionPerformed
 
     private void Seleccion_ProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Seleccion_ProductoActionPerformed
-       JFrame_Buscar_Producto buscar_Producto=new JFrame_Buscar_Producto();
+        JFrame_Buscar_Producto buscar_Producto = new JFrame_Buscar_Producto();
         buscar_Producto.setVisible(true);
     }//GEN-LAST:event_Seleccion_ProductoActionPerformed
 
@@ -93,9 +92,10 @@ public class JFrame_Main extends javax.swing.JFrame {
         this.Seleccion_Gama = Seleccion_Gama;
         this.Seleccion_Producto = Seleccion_Producto;
         this.FONDO = jLabel2;
-        
+
     }
-public JFrame_Buscar_Producto buscar_Producto;
+    public JFrame_Buscar_Producto buscar_Producto;
+
     /**
      * @param args the command line arguments
      */
